@@ -1,0 +1,72 @@
+﻿@using MvcFlashMessages
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/flash-messages.css" rel="stylesheet" type="text/css" />
+
+    <title>@ViewBag.Title - LDAP Authentication</title>
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        @Html.ActionLink("LDAP Authentication", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    @Html.ActionLink("About", "Index", "About", null, new { @class = "nav-link" })
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("SignOut", "Login", FormMethod.Post, new { id = "logoutForm", @class = "form-inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @User.Identity.Name
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Log Off</a>
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="nav-item">
+                        @Html.ActionLink("Log In", "Index", "Login", null, new { @class = "nav-link" })
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        @Html.RenderFlash();
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - LDAP Authentication</p>
+        </footer>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/umd/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
